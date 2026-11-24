@@ -18,8 +18,8 @@ import VerifyResultCard from '../components/verify/VerifyResultCard.jsx';
 
 /**
  * Public Verification Page with an editorial 2-column desktop layout.
- * Left column presents cryptographic guarantees and status legend inside a frosted tile;
- * Right column provides animated segmented tabs for PDF drag-and-drop and Certificate ID lookup.
+ * Left column presents unboxed cryptographic guarantees and status legend;
+ * Right glass tile hosts the header, tab switcher, and verification panels.
  */
 export default function VerifyPage() {
   const [searchParams] = useSearchParams();
@@ -104,26 +104,19 @@ export default function VerifyPage() {
       </div>
 
       <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        {/* Left Column: Frosted Editorial Tile */}
+        {/* Left Column: Unboxed Cryptographic Guarantees & Verification States */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="lg:col-span-5 w-full"
+          className="lg:col-span-5 text-left"
         >
-          <div className="rounded-2xl border border-white/[0.08] bg-[#050816]/65 backdrop-blur-md p-6 sm:p-7 space-y-3.5 text-left">
-            <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
-              PUBLIC VERIFICATION REGISTRY
+          {/* Cryptographic Trust List */}
+          <div>
+            <p className="font-mono text-[10px] tracking-wider uppercase text-indigo-300/80 font-medium mb-3">
+              CRYPTOGRAPHIC GUARANTEES
             </p>
-            <h1 className="font-serif-display text-3xl sm:text-4xl text-white font-light tracking-tight leading-tight">
-              Verify a Certificate
-            </h1>
-            <p className="text-sm text-slate-400 leading-relaxed font-normal">
-              Instant cryptographic validation via PDF byte hashing or unique certificate identifier.
-            </p>
-
-            {/* Compact Cryptographic Trust List */}
-            <div className="border-t border-white/10 pt-4 mt-5 space-y-2.5 text-xs text-slate-300">
+            <div className="space-y-3 text-xs text-slate-300">
               <div className="flex items-center gap-3">
                 <Cpu className="h-4 w-4 text-indigo-300/80 shrink-0" />
                 <span>SHA-256 hashed strictly in memory</span>
@@ -137,25 +130,25 @@ export default function VerifyPage() {
                 <span>Instant lookup against BMSCE registry</span>
               </div>
             </div>
+          </div>
 
-            {/* Compact Status Legend */}
-            <div className="border-t border-white/10 pt-4 mt-5">
-              <p className="font-mono-tech text-[10px] tracking-wider uppercase text-slate-400 mb-2.5">
-                VERIFICATION STATES
-              </p>
-              <div className="space-y-2 text-xs text-slate-400">
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                  <span>Valid — Authentic &amp; active</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-                  <span>Revoked — Withdrawn by issuer</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
-                  <span>Not Verified — Altered or unrecorded</span>
-                </div>
+          {/* Hairline Divider + Compact Verification States Legend */}
+          <div className="border-t border-white/10 pt-5 mt-5">
+            <p className="font-mono text-[10px] tracking-wider uppercase text-slate-400 font-medium mb-3">
+              VERIFICATION STATES
+            </p>
+            <div className="space-y-2 text-xs text-slate-300">
+              <div className="flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                <span>Valid — Authentic &amp; active</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                <span>Revoked — Withdrawn by issuer</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
+                <span>Not Verified — Altered or unrecorded</span>
               </div>
             </div>
           </div>
@@ -182,89 +175,100 @@ export default function VerifyPage() {
               <VerifyResultCard result={result} onReset={() => { setResult(null); setError(''); }} />
             ) : (
               <div className="space-y-5">
-                {/* Segmented Control with Sliding Active Indicator */}
-                <div className="grid grid-cols-2 p-1 rounded-xl bg-white/[0.04] border border-white/10">
+                {/* Header at Top of Tile */}
+                <div className="text-left mb-5">
+                  <p className="font-mono text-[11px] uppercase tracking-wider text-indigo-300/80 font-medium">
+                    PUBLIC VERIFICATION REGISTRY
+                  </p>
+                  <h1 className="font-serif-display text-2xl sm:text-3xl text-white font-light tracking-tight mt-1">
+                    Verify a Certificate
+                  </h1>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed font-normal">
+                    Instant cryptographic validation via PDF byte hashing or unique certificate ID.
+                  </p>
+                </div>
+
+                {/* Segmented Control with Sliding Pill Indicator */}
+                <div className="grid grid-cols-2 p-1 rounded-xl bg-white/[0.04] border border-white/10 relative">
                   <button
                     type="button"
                     onClick={() => { setActiveTab('file'); setError(''); }}
-                    className={`relative py-2 rounded-lg text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${
+                    className={`relative py-2 rounded-lg text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-colors z-10 ${
                       activeTab === 'file' ? 'text-white font-medium' : 'text-slate-400 hover:text-slate-200'
                     }`}
                   >
                     {activeTab === 'file' && (
-                      <motion.span
+                      <motion.div
                         layoutId="verify-tab-indicator"
-                        transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                        className="absolute inset-0 rounded-lg bg-white/[0.12] border border-white/10"
+                        className="absolute inset-0 bg-white/10 rounded-lg shadow-sm"
+                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                       />
                     )}
-                    <span className="relative z-10 flex items-center gap-2">
-                      <FileUp className="w-3.5 h-3.5" /> Upload PDF
-                    </span>
+                    <FileUp className="w-3.5 h-3.5 relative z-10" />
+                    <span className="relative z-10">Upload PDF</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => { setActiveTab('id'); setError(''); }}
-                    className={`relative py-2 rounded-lg text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${
+                    className={`relative py-2 rounded-lg text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-colors z-10 ${
                       activeTab === 'id' ? 'text-white font-medium' : 'text-slate-400 hover:text-slate-200'
                     }`}
                   >
                     {activeTab === 'id' && (
-                      <motion.span
+                      <motion.div
                         layoutId="verify-tab-indicator"
-                        transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                        className="absolute inset-0 rounded-lg bg-white/[0.12] border border-white/10"
+                        className="absolute inset-0 bg-white/10 rounded-lg shadow-sm"
+                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                       />
                     )}
-                    <span className="relative z-10 flex items-center gap-2">
-                      <Hash className="w-3.5 h-3.5" /> Certificate ID
-                    </span>
+                    <Hash className="w-3.5 h-3.5 relative z-10" />
+                    <span className="relative z-10">Certificate ID</span>
                   </button>
                 </div>
 
-                {/* Animated Tab Panel Content */}
-                <AnimatePresence mode="wait" initial={false}>
+                {/* Input Panel with AnimatePresence Crossfade */}
+                <AnimatePresence mode="wait">
                   {activeTab === 'file' ? (
                     <motion.div
                       key="file"
-                      initial={{ opacity: 0, y: 8 }}
+                      initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <FileDropzone onVerify={handleVerifyFile} isSubmitting={isVerifying} />
                     </motion.div>
                   ) : (
-                    <motion.div
+                    <motion.form
                       key="id"
-                      initial={{ opacity: 0, y: 8 }}
+                      initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.2 }}
+                      onSubmit={(e) => { e.preventDefault(); handleVerifyId(); }}
+                      className="space-y-4 text-left"
                     >
-                      <form onSubmit={(e) => { e.preventDefault(); handleVerifyId(); }} className="space-y-4 text-left">
-                        <div>
-                          <label className="block font-mono-tech text-xs text-slate-400 uppercase tracking-wider mb-2">
-                            Enter Certificate Identifier
-                          </label>
-                          <input
-                            type="text"
-                            value={certIdInput}
-                            onChange={(e) => setCertIdInput(e.target.value.toUpperCase())}
-                            placeholder="CERT-XXXXXX"
-                            className="w-full px-4 py-2.5 rounded-xl bg-black/30 border border-white/10 font-mono-tech text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-white/30 uppercase transition-colors"
-                          />
-                        </div>
-                        <button
-                          type="submit"
-                          disabled={!certIdInput.trim() || isVerifying}
-                          className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium bg-white text-[#050816] hover:bg-slate-200 active:bg-slate-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm focus-visible:ring-2 focus-visible:ring-white/60"
-                        >
-                          <span>Verify ID</span>
-                          <ArrowRight className="w-4 h-4 text-[#050816]" />
-                        </button>
-                      </form>
-                    </motion.div>
+                      <div>
+                        <label className="block font-mono text-xs text-slate-400 uppercase tracking-wider mb-2">
+                          Enter Certificate Identifier
+                        </label>
+                        <input
+                          type="text"
+                          value={certIdInput}
+                          onChange={(e) => setCertIdInput(e.target.value.toUpperCase())}
+                          placeholder="CERT-XXXXXX"
+                          className="w-full px-4 py-2.5 rounded-xl bg-black/30 border border-white/10 font-mono text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-white/30 uppercase transition-colors"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={!certIdInput.trim() || isVerifying}
+                        className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium bg-white text-[#050816] hover:bg-slate-200 active:bg-slate-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm focus-visible:ring-2 focus-visible:ring-white/60"
+                      >
+                        <span>Verify ID</span>
+                        <ArrowRight className="w-4 h-4 text-[#050816]" />
+                      </button>
+                    </motion.form>
                   )}
                 </AnimatePresence>
               </div>

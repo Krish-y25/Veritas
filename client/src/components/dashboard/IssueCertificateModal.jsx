@@ -15,8 +15,8 @@ import {
 import { apiRequest } from '../../lib/api.js';
 
 /**
- * Modal for issuing certificates via in-memory PDF generation or custom PDF upload.
- * Animated smoothly with Framer Motion on entrance and exit.
+ * Modal for issuing certificates via either in-memory PDF generation or custom PDF upload.
+ * Animated with Framer Motion backdrop fade, spring card zoom, and sliding tab indicator.
  */
 export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
   const [mode, setMode] = useState('generate'); // 'generate' | 'upload'
@@ -50,15 +50,14 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
     try {
       let result;
       if (mode === 'generate') {
-        result = await apiRequest('/certificates/issue', {
+        result = await apiRequest('/certificates/generate', {
           method: 'POST',
           body: { studentName, course, year: parseInt(year, 10), grade },
         });
       } else {
         if (!file) {
-          setError('Please select a certificate PDF file to upload.');
           setIsSubmitting(false);
-          return;
+          return setError('Please select a certificate PDF file.');
         }
         const formData = new FormData();
         formData.append('studentName', studentName);
@@ -66,37 +65,45 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
         formData.append('year', year);
         formData.append('grade', grade);
         formData.append('file', file);
-
-        result = await apiRequest('/certificates/issue-with-file', {
+        result = await apiRequest('/certificates', {
           method: 'POST',
           body: formData,
         });
       }
 
       setIssueResult(result);
-      if (onIssued) onIssued(result);
+      if (onIssued) onIssued(result.certificate);
     } catch (err) {
-      setError(err.message || 'Failed to issue certificate.');
+      setError(err.message || 'Failed to issue certificate. Please check input.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleCopyId = async () => {
-    if (!issueResult?.certificate?.certId) return;
-    await navigator.clipboard.writeText(issueResult.certificate.certId);
-    setCopiedId(true);
-    setTimeout(() => setCopiedId(false), 2000);
-  };
-
   const handleDownloadPdf = () => {
     if (!issueResult?.pdfBase64) return;
+    const byteCharacters = atob(issueResult.pdfBase64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = `data:application/pdf;base64,${issueResult.pdfBase64}`;
-    link.download = `${issueResult.certificate?.certId || 'certificate'}.pdf`;
+    link.href = url;
+    link.download = `${issueResult.certificate?.certId || 'Certificate'}.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleCopyId = () => {
+    if (!issueResult?.certificate?.certId) return;
+    navigator.clipboard.writeText(issueResult.certificate.certId);
+    setCopiedId(true);
+    setTimeout(() => setCopiedId(false), 2000);
   };
 
   const handleResetAndClose = () => {
@@ -113,24 +120,22 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Animated Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            onClick={handleResetAndClose}
-            className="fixed inset-0 bg-black/70 backdrop-blur-md"
-          />
-
-          {/* Animated Modal Card */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) handleResetAndClose();
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
+        >
           <motion.div
             initial={{ opacity: 0, scale: 0.96, y: 14 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97, y: 10 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-card max-w-lg w-full p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl relative max-h-[90vh] overflow-y-auto z-10"
+            className="glass-card max-w-lg w-full p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl relative max-h-[90vh] overflow-y-auto"
           >
             <button
               type="button"
@@ -142,59 +147,57 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
 
             {!issueResult ? (
               <div>
-                <div className="mb-4 text-left">
+                <div className="mb-4">
                   <p className="font-mono-tech text-xs uppercase tracking-wider text-indigo-300/80">CREDENTIAL ISSUANCE</p>
                   <h2 className="font-serif-display text-2xl sm:text-3xl text-white font-light mt-0.5">Issue Certificate</h2>
                 </div>
 
-                {/* Mode Toggle with Animated Pill */}
-                <div className="grid grid-cols-2 p-1 rounded-xl bg-black/40 border border-white/5 mb-4">
+                {/* Mode Toggle with Shared Sliding Pill Indicator */}
+                <div className="grid grid-cols-2 p-1 rounded-xl bg-black/40 border border-white/5 mb-4 relative">
                   <button
                     type="button"
                     onClick={() => { setMode('generate'); setError(''); }}
-                    className={`relative flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-mono-tech uppercase tracking-wider transition-colors ${
-                      mode === 'generate' ? 'text-white font-medium' : 'text-slate-400 hover:text-slate-200'
+                    className={`relative flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-mono-tech uppercase tracking-wider transition-colors z-10 ${
+                      mode === 'generate' ? 'text-indigo-300 font-medium' : 'text-slate-400 hover:text-slate-200'
                     }`}
                   >
                     {mode === 'generate' && (
                       <motion.span
                         layoutId="issue-modal-tab"
+                        className="absolute inset-0 bg-white/10 rounded-lg shadow-sm"
                         transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                        className="absolute inset-0 rounded-lg bg-white/[0.12] border border-white/10"
                       />
                     )}
-                    <span className="relative z-10 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5" /> Generate PDF
-                    </span>
+                    <Sparkles className="w-3.5 h-3.5 relative z-10" />
+                    <span className="relative z-10">Generate PDF</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => { setMode('upload'); setError(''); }}
-                    className={`relative flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-mono-tech uppercase tracking-wider transition-colors ${
-                      mode === 'upload' ? 'text-white font-medium' : 'text-slate-400 hover:text-slate-200'
+                    className={`relative flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-mono-tech uppercase tracking-wider transition-colors z-10 ${
+                      mode === 'upload' ? 'text-indigo-300 font-medium' : 'text-slate-400 hover:text-slate-200'
                     }`}
                   >
                     {mode === 'upload' && (
                       <motion.span
                         layoutId="issue-modal-tab"
+                        className="absolute inset-0 bg-white/10 rounded-lg shadow-sm"
                         transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                        className="absolute inset-0 rounded-lg bg-white/[0.12] border border-white/10"
                       />
                     )}
-                    <span className="relative z-10 flex items-center gap-1.5">
-                      <FileText className="w-3.5 h-3.5" /> Upload PDF
-                    </span>
+                    <FileText className="w-3.5 h-3.5 relative z-10" />
+                    <span className="relative z-10">Upload PDF</span>
                   </button>
                 </div>
 
                 {error && (
-                  <div className="mb-4 flex items-start gap-2 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs text-left">
+                  <div className="mb-4 flex items-start gap-2 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs">
                     <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                     <p>{error}</p>
                   </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-3.5 text-left">
+                <form onSubmit={handleSubmit} className="space-y-3.5">
                   <div>
                     <label className="block font-mono-tech text-[11px] text-slate-400 uppercase tracking-wider mb-1">Student Name</label>
                     <input
@@ -203,7 +206,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                       value={studentName}
                       onChange={(e) => setStudentName(e.target.value)}
                       placeholder="e.g. Rohan Kulkarni"
-                      className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-white/30 transition-colors"
+                      className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                     />
                   </div>
 
@@ -216,7 +219,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                         value={course}
                         onChange={(e) => setCourse(e.target.value)}
                         placeholder="B.Tech Computer Science"
-                        className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-white/30 transition-colors"
+                        className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                       />
                     </div>
                     <div>
@@ -226,7 +229,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                         required
                         value={year}
                         onChange={(e) => setYear(e.target.value)}
-                        className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-white/30 transition-colors"
+                        className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                       />
                     </div>
                   </div>
@@ -239,30 +242,46 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                       value={grade}
                       onChange={(e) => setGrade(e.target.value)}
                       placeholder="First Class with Distinction"
-                      className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-white/30 transition-colors"
+                      className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                     />
                   </div>
 
-                  {mode === 'generate' ? (
-                    <div className="p-3 rounded-xl bg-indigo-500/5 border border-indigo-500/20 text-xs text-slate-400">
-                      <p className="text-[11px] font-mono-tech text-indigo-300/90 leading-relaxed">
-                        Generates a printable A4 certificate with the BMSCE logo, QR code, and SHA-256 fingerprint.
-                      </p>
-                    </div>
-                  ) : (
-                    <div>
-                      <label className="block font-mono-tech text-[11px] text-slate-400 uppercase tracking-wider mb-1">Certificate PDF File</label>
-                      <input ref={fileInputRef} type="file" accept=".pdf,application/pdf" onChange={handleFileChange} className="hidden" />
-                      <button
-                        type="button"
-                        onClick={() => fileInputRef.current?.click()}
-                        className="w-full p-3 rounded-xl border border-dashed border-white/20 hover:border-indigo-400 text-left flex items-center justify-between transition-colors bg-white/[0.02]"
+                  {/* Active Tab Panel with Crisp AnimatePresence Crossfade */}
+                  <AnimatePresence mode="wait" initial={false}>
+                    {mode === 'generate' ? (
+                      <motion.div
+                        key="generate"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.18 }}
+                        className="p-3 rounded-xl bg-indigo-500/5 border border-indigo-500/20 text-xs text-slate-400"
                       >
-                        <span className="text-xs text-slate-300 truncate">{file ? file.name : 'Select certificate PDF (max 5MB)...'}</span>
-                        <UploadCloud className="w-4 h-4 text-slate-400 shrink-0 ml-2" />
-                      </button>
-                    </div>
-                  )}
+                        <p className="text-[11px] font-mono-tech text-indigo-300/90 leading-relaxed">
+                          Generates a printable A4 certificate with the BMSCE logo, QR code, and SHA-256 fingerprint.
+                        </p>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="upload"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.18 }}
+                      >
+                        <label className="block font-mono-tech text-[11px] text-slate-400 uppercase tracking-wider mb-1">Certificate PDF File</label>
+                        <input ref={fileInputRef} type="file" accept=".pdf,application/pdf" onChange={handleFileChange} className="hidden" />
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          className="w-full p-3 rounded-xl border border-dashed border-white/20 hover:border-indigo-400 text-left flex items-center justify-between transition-colors bg-white/[0.02]"
+                        >
+                          <span className="text-xs text-slate-300 truncate">{file ? file.name : 'Select certificate PDF (max 5MB)...'}</span>
+                          <UploadCloud className="w-4 h-4 text-slate-400 shrink-0 ml-2" />
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   <button
                     type="submit"
@@ -347,7 +366,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
               </div>
             )}
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
