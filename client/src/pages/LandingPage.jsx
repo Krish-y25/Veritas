@@ -91,12 +91,12 @@ export default function LandingPage() {
           <img src="/veritas-logo.png" alt="Veritas" className="h-6 w-6 object-contain" />
           <span className="text-slate-300 font-medium">Veritas</span>
           <span className="text-slate-700">|</span>
-          <span>BMS College of Engineering Demo</span>
+          <span>BMS College of Engineering</span>
         </div>
 
         <div className="flex items-center gap-6 text-slate-400">
           <Link to="/contact" className="hover:text-cyan-300 transition-colors">
-            Contact
+            Contact us
           </Link>
         </div>
       </footer>

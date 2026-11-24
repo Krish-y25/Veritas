@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { FileUp, Hash, ArrowRight, AlertCircle } from 'lucide-react';
 import { apiRequest } from '../lib/api.js';
 import FileDropzone from '../components/verify/FileDropzone.jsx';
@@ -8,6 +9,7 @@ import VerifyResultCard from '../components/verify/VerifyResultCard.jsx';
 
 /**
  * Public Verification Page supporting both PDF file upload and Certificate ID lookup.
+ * Smooth Framer Motion entrance matches Veritas editorial aesthetic.
  */
 export default function VerifyPage() {
   const [searchParams] = useSearchParams();
@@ -83,7 +85,13 @@ export default function VerifyPage() {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center py-6 sm:py-10">
-      <div className="text-center max-w-xl mx-auto mb-8 space-y-2">
+      {/* 1) Page Header Block — delay 0 */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="text-center max-w-xl mx-auto mb-8 space-y-2"
+      >
         <p className="font-mono-tech text-xs tracking-widest uppercase text-cyan-400 font-medium">
           CRYPTOGRAPHIC VERIFICATION
         </p>
@@ -93,9 +101,15 @@ export default function VerifyPage() {
         <p className="text-sm text-slate-400 font-normal">
           Instant cryptographic validation via PDF byte hashing or certificate identifier.
         </p>
-      </div>
+      </motion.div>
 
-      <div className="glass-card max-w-xl w-full p-6 sm:p-8 rounded-2xl shadow-2xl relative overflow-hidden">
+      {/* 2) Main Verification Glass-Card Container — delay ~0.08s */}
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.08, ease: 'easeOut' }}
+        className="glass-card max-w-xl w-full p-6 sm:p-8 rounded-2xl shadow-2xl relative overflow-hidden"
+      >
         {error && (
           <div className="mb-6 flex items-start gap-3 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs">
             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -158,7 +172,7 @@ export default function VerifyPage() {
             )}
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

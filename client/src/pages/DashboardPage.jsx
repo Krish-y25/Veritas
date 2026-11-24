@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { Plus, Building2, User } from 'lucide-react';
 import { useAuth } from '../lib/auth.jsx';
 import { apiRequest } from '../lib/api.js';
@@ -8,6 +9,7 @@ import IssueCertificateModal from '../components/dashboard/IssueCertificateModal
 
 /**
  * Protected Issuer Dashboard managing institutional stats, issuance, and revocations.
+ * Subtle staggered top-to-bottom Framer Motion sequence matches Veritas editorial style.
  */
 export default function DashboardPage() {
   const { issuer } = useAuth();
@@ -68,8 +70,13 @@ export default function DashboardPage() {
 
   return (
     <div className="flex-1 w-full space-y-8 py-4 sm:py-6">
-      {/* Header Row */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      {/* 1) Header Row — delay 0 */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+      >
         <div>
           <p className="font-mono-tech text-xs tracking-widest uppercase text-cyan-400 font-medium">
             ISSUER DASHBOARD
@@ -94,18 +101,30 @@ export default function DashboardPage() {
           <Plus className="w-4 h-4" />
           <span>Issue Certificate</span>
         </button>
-      </div>
+      </motion.div>
 
-      {/* Stats Cards Grid */}
-      <StatsCards stats={stats} isLoading={isLoadingStats} />
+      {/* 2) Stats Cards Grid — delay ~0.08s */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.08, ease: 'easeOut' }}
+      >
+        <StatsCards stats={stats} isLoading={isLoadingStats} />
+      </motion.div>
 
-      {/* Certificates Table */}
-      <CertificateTable
-        certificates={certificates}
-        onSearchChange={handleSearchChange}
-        onRevokeCertificate={handleRevoke}
-        isRevoking={isRevoking}
-      />
+      {/* 3) Certificates Table — delay ~0.16s */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.16, ease: 'easeOut' }}
+      >
+        <CertificateTable
+          certificates={certificates}
+          onSearchChange={handleSearchChange}
+          onRevokeCertificate={handleRevoke}
+          isRevoking={isRevoking}
+        />
+      </motion.div>
 
       {/* Issue Certificate Modal */}
       <IssueCertificateModal
