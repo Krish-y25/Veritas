@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import authRoutes from './routes/authRoutes.js';
+import certificateRoutes from './routes/certificateRoutes.js';
+import { stats as getStats } from './controllers/certificateController.js';
+import { requireAuth } from './middleware/auth.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 const app = express();
@@ -24,6 +27,12 @@ app.get('/api/health', (req, res) => {
 
 // Authentication routes
 app.use('/api/auth', authRoutes);
+
+// Protected certificate routes
+app.use('/api/certificates', requireAuth, certificateRoutes);
+
+// Protected statistics route
+app.get('/api/stats', requireAuth, getStats);
 
 // Central error handler
 app.use(errorHandler);
