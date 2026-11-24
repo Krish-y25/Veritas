@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus, Building2, User } from 'lucide-react';
+import { Plus, Building2, User, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../lib/auth.jsx';
 import { apiRequest } from '../lib/api.js';
 import StatsCards from '../components/dashboard/StatsCards.jsx';
@@ -69,14 +70,26 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex-1 w-full space-y-8 py-4 sm:py-6">
-      {/* 1) Header Row — delay 0 */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
-        className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-      >
+    <div className="flex-1 w-full py-4 sm:py-6">
+      {/* Back to Home Link */}
+      <div className="mb-3">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-slate-400 hover:text-white transition-colors group"
+        >
+          <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-0.5 transition-transform" />
+          <span>Back to Home</span>
+        </Link>
+      </div>
+
+      <div className="space-y-8">
+        {/* 1) Header Row — delay 0 */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+        >
         <div>
           <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
             ISSUER DASHBOARD
@@ -132,6 +145,7 @@ export default function DashboardPage() {
         onClose={() => setIsModalOpen(false)}
         onIssued={handleCertificateIssued}
       />
+      </div>
     </div>
   );
 }

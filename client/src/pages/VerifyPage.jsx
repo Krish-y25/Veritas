@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FileUp, Hash, ArrowRight, AlertCircle } from 'lucide-react';
+import { FileUp, Hash, ArrowRight, AlertCircle, ArrowLeft } from 'lucide-react';
 import { apiRequest } from '../lib/api.js';
 import FileDropzone from '../components/verify/FileDropzone.jsx';
 import VerifyingStepper from '../components/verify/VerifyingStepper.jsx';
@@ -81,7 +81,18 @@ export default function VerifyPage() {
   }, [searchParams]);
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center py-6 sm:py-10">
+    <div className="flex-1 w-full flex flex-col items-center justify-center py-6 sm:py-10">
+      {/* Back to Home Link */}
+      <div className="w-full mb-6 text-left">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-slate-400 hover:text-white transition-colors group"
+        >
+          <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-0.5 transition-transform" />
+          <span>Back to Home</span>
+        </Link>
+      </div>
+
       {/* 1) Page Header Block — delay 0 */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}

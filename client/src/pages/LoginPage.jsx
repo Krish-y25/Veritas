@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Lock, LogIn, Loader2, AlertCircle, KeyRound, Sparkles } from 'lucide-react';
+import { Lock, LogIn, Loader2, AlertCircle, KeyRound, Sparkles, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../lib/auth.jsx';
 import { apiRequest } from '../lib/api.js';
 
@@ -39,7 +39,18 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center py-8">
+    <div className="flex-1 w-full flex flex-col items-center justify-center py-4 sm:py-6">
+      {/* Back to Home Link */}
+      <div className="w-full mb-6 text-left">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-slate-400 hover:text-white transition-colors group"
+        >
+          <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-0.5 transition-transform" />
+          <span>Back to Home</span>
+        </Link>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
