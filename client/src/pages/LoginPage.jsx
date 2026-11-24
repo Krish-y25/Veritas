@@ -72,29 +72,31 @@ export default function LoginPage() {
         className="w-full max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center"
       >
         {/* Left column: Editorial context */}
-        <div className="lg:col-span-6 space-y-4 text-left">
-          <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
-            ISSUER PORTAL · BMSCE
-          </p>
-          <h1 className="font-serif-display text-3xl sm:text-4xl text-white font-light tracking-tight leading-tight">
-            Authorized Credential Registry
-          </h1>
-          <p className="text-sm text-slate-400 leading-relaxed font-normal">
-            Restricted institutional gateway for issuing, cryptographically signing, and managing official academic records.
-          </p>
+        <div className="lg:col-span-6 w-full">
+          <div className="rounded-2xl border border-white/[0.08] bg-[#050816]/65 backdrop-blur-md p-6 sm:p-7 space-y-4 text-left">
+            <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
+              ISSUER PORTAL · BMSCE
+            </p>
+            <h1 className="font-serif-display text-3xl sm:text-4xl text-white font-light tracking-tight leading-tight">
+              Authorized Credential Registry
+            </h1>
+            <p className="text-sm text-slate-400 leading-relaxed font-normal">
+              Restricted institutional gateway for issuing, cryptographically signing, and managing official academic records.
+            </p>
 
-          <div className="border-t border-white/10 pt-5 mt-6 space-y-3.5">
-            <div className="flex items-center gap-3 text-xs text-slate-300">
-              <KeyRound className="h-4 w-4 text-indigo-300/80 shrink-0" />
-              <span>JWT-authenticated issuer sessions</span>
-            </div>
-            <div className="flex items-center gap-3 text-xs text-slate-300">
-              <FileCheck2 className="h-4 w-4 text-indigo-300/80 shrink-0" />
-              <span>Deterministic in-memory SHA-256 signing</span>
-            </div>
-            <div className="flex items-center gap-3 text-xs text-slate-300">
-              <ShieldAlert className="h-4 w-4 text-indigo-300/80 shrink-0" />
-              <span>Instant credential revocation control</span>
+            <div className="border-t border-white/10 pt-5 mt-6 space-y-3.5">
+              <div className="flex items-center gap-3 text-xs text-slate-300">
+                <KeyRound className="h-4 w-4 text-indigo-300/80 shrink-0" />
+                <span>JWT-authenticated issuer sessions</span>
+              </div>
+              <div className="flex items-center gap-3 text-xs text-slate-300">
+                <FileCheck2 className="h-4 w-4 text-indigo-300/80 shrink-0" />
+                <span>Deterministic in-memory SHA-256 signing</span>
+              </div>
+              <div className="flex items-center gap-3 text-xs text-slate-300">
+                <ShieldAlert className="h-4 w-4 text-indigo-300/80 shrink-0" />
+                <span>Instant credential revocation control</span>
+              </div>
             </div>
           </div>
         </div>

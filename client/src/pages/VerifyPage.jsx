@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   FileUp,
   Hash,
@@ -18,8 +18,8 @@ import VerifyResultCard from '../components/verify/VerifyResultCard.jsx';
 
 /**
  * Public Verification Page with an editorial 2-column desktop layout.
- * Left column presents cryptographic guarantees and status legend;
- * Right column provides focused PDF drag-and-drop and Certificate ID lookup.
+ * Left column presents cryptographic guarantees and status legend inside a frosted tile;
+ * Right column provides animated segmented tabs for PDF drag-and-drop and Certificate ID lookup.
  */
 export default function VerifyPage() {
   const [searchParams] = useSearchParams();
@@ -104,56 +104,58 @@ export default function VerifyPage() {
       </div>
 
       <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        {/* Left Column: Editorial Context, Cryptographic Guarantees & Status Legend */}
+        {/* Left Column: Frosted Editorial Tile */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="lg:col-span-5 space-y-3.5 text-left"
+          className="lg:col-span-5 w-full"
         >
-          <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
-            PUBLIC VERIFICATION REGISTRY
-          </p>
-          <h1 className="font-serif-display text-3xl sm:text-4xl text-white font-light tracking-tight leading-tight">
-            Verify a Certificate
-          </h1>
-          <p className="text-sm text-slate-400 leading-relaxed font-normal">
-            Instant cryptographic validation via PDF byte hashing or unique certificate identifier.
-          </p>
-
-          {/* Compact Cryptographic Trust List */}
-          <div className="border-t border-white/10 pt-4 mt-5 space-y-2.5 text-xs text-slate-300">
-            <div className="flex items-center gap-3">
-              <Cpu className="h-4 w-4 text-indigo-300/80 shrink-0" />
-              <span>SHA-256 hashed strictly in memory</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <EyeOff className="h-4 w-4 text-indigo-300/80 shrink-0" />
-              <span>Zero file storage — PDFs discarded immediately</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <ShieldCheck className="h-4 w-4 text-indigo-300/80 shrink-0" />
-              <span>Instant lookup against BMSCE registry</span>
-            </div>
-          </div>
-
-          {/* Compact Status Legend */}
-          <div className="border-t border-white/10 pt-4 mt-5">
-            <p className="font-mono-tech text-[10px] tracking-wider uppercase text-slate-400 mb-2.5">
-              VERIFICATION STATES
+          <div className="rounded-2xl border border-white/[0.08] bg-[#050816]/65 backdrop-blur-md p-6 sm:p-7 space-y-3.5 text-left">
+            <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
+              PUBLIC VERIFICATION REGISTRY
             </p>
-            <div className="space-y-2 text-xs text-slate-400">
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                <span>Valid — Authentic &amp; active</span>
+            <h1 className="font-serif-display text-3xl sm:text-4xl text-white font-light tracking-tight leading-tight">
+              Verify a Certificate
+            </h1>
+            <p className="text-sm text-slate-400 leading-relaxed font-normal">
+              Instant cryptographic validation via PDF byte hashing or unique certificate identifier.
+            </p>
+
+            {/* Compact Cryptographic Trust List */}
+            <div className="border-t border-white/10 pt-4 mt-5 space-y-2.5 text-xs text-slate-300">
+              <div className="flex items-center gap-3">
+                <Cpu className="h-4 w-4 text-indigo-300/80 shrink-0" />
+                <span>SHA-256 hashed strictly in memory</span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-                <span>Revoked — Withdrawn by issuer</span>
+              <div className="flex items-center gap-3">
+                <EyeOff className="h-4 w-4 text-indigo-300/80 shrink-0" />
+                <span>Zero file storage — PDFs discarded immediately</span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
-                <span>Not Verified — Altered or unrecorded</span>
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="h-4 w-4 text-indigo-300/80 shrink-0" />
+                <span>Instant lookup against BMSCE registry</span>
+              </div>
+            </div>
+
+            {/* Compact Status Legend */}
+            <div className="border-t border-white/10 pt-4 mt-5">
+              <p className="font-mono-tech text-[10px] tracking-wider uppercase text-slate-400 mb-2.5">
+                VERIFICATION STATES
+              </p>
+              <div className="space-y-2 text-xs text-slate-400">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                  <span>Valid — Authentic &amp; active</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                  <span>Revoked — Withdrawn by issuer</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
+                  <span>Not Verified — Altered or unrecorded</span>
+                </div>
               </div>
             </div>
           </div>
@@ -180,58 +182,91 @@ export default function VerifyPage() {
               <VerifyResultCard result={result} onReset={() => { setResult(null); setError(''); }} />
             ) : (
               <div className="space-y-5">
-                {/* Segmented Control */}
+                {/* Segmented Control with Sliding Active Indicator */}
                 <div className="grid grid-cols-2 p-1 rounded-xl bg-white/[0.04] border border-white/10">
                   <button
                     type="button"
                     onClick={() => { setActiveTab('file'); setError(''); }}
-                    className={`py-2 rounded-lg text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
-                      activeTab === 'file'
-                        ? 'bg-white/10 text-white font-medium shadow-sm'
-                        : 'text-slate-400 hover:text-slate-200'
+                    className={`relative py-2 rounded-lg text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${
+                      activeTab === 'file' ? 'text-white font-medium' : 'text-slate-400 hover:text-slate-200'
                     }`}
                   >
-                    <FileUp className="w-3.5 h-3.5" /> Upload PDF
+                    {activeTab === 'file' && (
+                      <motion.span
+                        layoutId="verify-tab-indicator"
+                        transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                        className="absolute inset-0 rounded-lg bg-white/[0.12] border border-white/10"
+                      />
+                    )}
+                    <span className="relative z-10 flex items-center gap-2">
+                      <FileUp className="w-3.5 h-3.5" /> Upload PDF
+                    </span>
                   </button>
                   <button
                     type="button"
                     onClick={() => { setActiveTab('id'); setError(''); }}
-                    className={`py-2 rounded-lg text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
-                      activeTab === 'id'
-                        ? 'bg-white/10 text-white font-medium shadow-sm'
-                        : 'text-slate-400 hover:text-slate-200'
+                    className={`relative py-2 rounded-lg text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${
+                      activeTab === 'id' ? 'text-white font-medium' : 'text-slate-400 hover:text-slate-200'
                     }`}
                   >
-                    <Hash className="w-3.5 h-3.5" /> Certificate ID
+                    {activeTab === 'id' && (
+                      <motion.span
+                        layoutId="verify-tab-indicator"
+                        transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                        className="absolute inset-0 rounded-lg bg-white/[0.12] border border-white/10"
+                      />
+                    )}
+                    <span className="relative z-10 flex items-center gap-2">
+                      <Hash className="w-3.5 h-3.5" /> Certificate ID
+                    </span>
                   </button>
                 </div>
 
-                {activeTab === 'file' ? (
-                  <FileDropzone onVerify={handleVerifyFile} isSubmitting={isVerifying} />
-                ) : (
-                  <form onSubmit={(e) => { e.preventDefault(); handleVerifyId(); }} className="space-y-4 text-left">
-                    <div>
-                      <label className="block font-mono-tech text-xs text-slate-400 uppercase tracking-wider mb-2">
-                        Enter Certificate Identifier
-                      </label>
-                      <input
-                        type="text"
-                        value={certIdInput}
-                        onChange={(e) => setCertIdInput(e.target.value.toUpperCase())}
-                        placeholder="CERT-XXXXXX"
-                        className="w-full px-4 py-2.5 rounded-xl bg-black/30 border border-white/10 font-mono-tech text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-white/30 uppercase transition-colors"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      disabled={!certIdInput.trim() || isVerifying}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium bg-white text-[#050816] hover:bg-slate-200 active:bg-slate-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm focus-visible:ring-2 focus-visible:ring-white/60"
+                {/* Animated Tab Panel Content */}
+                <AnimatePresence mode="wait" initial={false}>
+                  {activeTab === 'file' ? (
+                    <motion.div
+                      key="file"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <span>Verify ID</span>
-                      <ArrowRight className="w-4 h-4 text-[#050816]" />
-                    </button>
-                  </form>
-                )}
+                      <FileDropzone onVerify={handleVerifyFile} isSubmitting={isVerifying} />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="id"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <form onSubmit={(e) => { e.preventDefault(); handleVerifyId(); }} className="space-y-4 text-left">
+                        <div>
+                          <label className="block font-mono-tech text-xs text-slate-400 uppercase tracking-wider mb-2">
+                            Enter Certificate Identifier
+                          </label>
+                          <input
+                            type="text"
+                            value={certIdInput}
+                            onChange={(e) => setCertIdInput(e.target.value.toUpperCase())}
+                            placeholder="CERT-XXXXXX"
+                            className="w-full px-4 py-2.5 rounded-xl bg-black/30 border border-white/10 font-mono-tech text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-white/30 uppercase transition-colors"
+                          />
+                        </div>
+                        <button
+                          type="submit"
+                          disabled={!certIdInput.trim() || isVerifying}
+                          className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium bg-white text-[#050816] hover:bg-slate-200 active:bg-slate-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm focus-visible:ring-2 focus-visible:ring-white/60"
+                        >
+                          <span>Verify ID</span>
+                          <ArrowRight className="w-4 h-4 text-[#050816]" />
+                        </button>
+                      </form>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )}
           </div>
