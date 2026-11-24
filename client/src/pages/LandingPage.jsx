@@ -24,8 +24,8 @@ export default function LandingPage() {
         >
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="font-mono-tech text-[11px] sm:text-xs tracking-widest uppercase text-cyan-300 font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+            <span className="font-mono-tech text-[11px] sm:text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
               VERITAS · CRYPTOGRAPHIC CREDENTIAL REGISTRY
             </span>
           </div>
@@ -55,24 +55,24 @@ export default function LandingPage() {
               className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-300 hover:text-white underline underline-offset-4 decoration-white/20 hover:decoration-white transition-colors"
             >
               <span>Issuer Portal</span>
-              <span className="text-cyan-400">→</span>
+              <span className="text-indigo-300">→</span>
             </Link>
           </div>
 
           {/* Trust Strip */}
           <div className="pt-6 flex flex-wrap items-center gap-y-2 gap-x-4 sm:gap-x-6 text-slate-500 font-mono-tech text-xs tracking-wider uppercase border-t border-white/5 max-w-xl">
             <span className="flex items-center gap-1 text-slate-400">
-              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400" />
               SHA-256
             </span>
             <span className="text-slate-700">·</span>
             <span className="flex items-center gap-1 text-slate-400">
-              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400" />
               ZERO FILE STORAGE
             </span>
             <span className="text-slate-700">·</span>
             <span className="flex items-center gap-1 text-slate-400">
-              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400" />
               INSTANT QR CHECK
             </span>
           </div>
@@ -95,8 +95,8 @@ export default function LandingPage() {
         </div>
 
         <div className="flex items-center gap-6 text-slate-400">
-          <Link to="/contact" className="hover:text-cyan-300 transition-colors">
-            Contact us
+          <Link to="/contact" className="hover:text-slate-200 transition-colors">
+            Contact Us
           </Link>
         </div>
       </footer>

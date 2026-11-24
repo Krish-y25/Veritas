@@ -35,11 +35,11 @@ export default function IssueSuccessView({ issueResult, onClose }) {
       </div>
 
       <div className="p-3 rounded-xl bg-slate-900/50 border border-white/10 flex items-center justify-between">
-        <span className="font-mono-tech text-sm text-cyan-300 font-medium">{certId}</span>
+        <span className="font-mono-tech text-sm text-indigo-300 font-medium">{certId}</span>
         <button
           type="button"
           onClick={() => handleCopy(certId, true)}
-          className="flex items-center gap-1 text-[11px] font-mono-tech text-cyan-400 px-2 py-0.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 transition-colors"
+          className="flex items-center gap-1 text-[11px] font-mono-tech text-indigo-300 px-2 py-0.5 rounded bg-indigo-500/10 hover:bg-indigo-500/20 transition-colors"
         >
           {copiedId ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
           <span>{copiedId ? 'Copied' : 'Copy ID'}</span>

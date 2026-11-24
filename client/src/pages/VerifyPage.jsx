@@ -34,7 +34,6 @@ export default function VerifyPage() {
     setError('');
     setIsVerifying(true);
     setResult(null);
-
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -53,11 +52,9 @@ export default function VerifyPage() {
   const handleVerifyId = async (idToVerify) => {
     const targetId = (idToVerify || certIdInput).trim().toUpperCase();
     if (!targetId) return setError('Please enter a certificate ID.');
-
     setError('');
     setIsVerifying(true);
     setResult(null);
-
     try {
       const [res] = await Promise.all([
         apiRequest(`/verify/${encodeURIComponent(targetId)}`),
@@ -92,7 +89,7 @@ export default function VerifyPage() {
         transition={{ duration: 0.4, ease: 'easeOut' }}
         className="text-center max-w-xl mx-auto mb-8 space-y-2"
       >
-        <p className="font-mono-tech text-xs tracking-widest uppercase text-cyan-400 font-medium">
+        <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
           CRYPTOGRAPHIC VERIFICATION
         </p>
         <h1 className="font-serif-display text-4xl sm:text-5xl font-light text-white tracking-tight">
@@ -128,7 +125,7 @@ export default function VerifyPage() {
                 type="button"
                 onClick={() => { setActiveTab('file'); setError(''); }}
                 className={`py-2 rounded-lg text-xs font-mono-tech uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
-                  activeTab === 'file' ? 'bg-white/10 text-cyan-300' : 'text-slate-400 hover:text-slate-200'
+                  activeTab === 'file' ? 'bg-white/10 text-indigo-300' : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <FileUp className="w-3.5 h-3.5" /> Upload PDF
@@ -137,7 +134,7 @@ export default function VerifyPage() {
                 type="button"
                 onClick={() => { setActiveTab('id'); setError(''); }}
                 className={`py-2 rounded-lg text-xs font-mono-tech uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
-                  activeTab === 'id' ? 'bg-white/10 text-cyan-300' : 'text-slate-400 hover:text-slate-200'
+                  activeTab === 'id' ? 'bg-white/10 text-indigo-300' : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <Hash className="w-3.5 h-3.5" /> Certificate ID
@@ -157,7 +154,7 @@ export default function VerifyPage() {
                     value={certIdInput}
                     onChange={(e) => setCertIdInput(e.target.value.toUpperCase())}
                     placeholder="CERT-XXXXXX"
-                    className="w-full px-4 py-3 rounded-xl bg-black/30 border border-white/10 font-mono-tech text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 uppercase"
+                    className="w-full px-4 py-3 rounded-xl bg-black/30 border border-white/10 font-mono-tech text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 uppercase"
                   />
                 </div>
                 <button

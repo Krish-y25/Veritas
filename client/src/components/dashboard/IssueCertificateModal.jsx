@@ -112,7 +112,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
         {!issueResult ? (
           <div>
             <div className="mb-4">
-              <p className="font-mono-tech text-xs uppercase tracking-wider text-cyan-400">CREDENTIAL ISSUANCE</p>
+              <p className="font-mono-tech text-xs uppercase tracking-wider text-indigo-300/80">CREDENTIAL ISSUANCE</p>
               <h2 className="font-serif-display text-2xl sm:text-3xl text-white font-light mt-0.5">Issue Certificate</h2>
             </div>
 
@@ -122,7 +122,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                 type="button"
                 onClick={() => { setMode('generate'); setError(''); }}
                 className={`flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-mono-tech uppercase tracking-wider transition-all ${
-                  mode === 'generate' ? 'bg-white/10 text-cyan-300' : 'text-slate-400 hover:text-slate-200'
+                  mode === 'generate' ? 'bg-white/10 text-indigo-300' : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <Sparkles className="w-3.5 h-3.5" /> Generate PDF
@@ -131,7 +131,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                 type="button"
                 onClick={() => { setMode('upload'); setError(''); }}
                 className={`flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-mono-tech uppercase tracking-wider transition-all ${
-                  mode === 'upload' ? 'bg-white/10 text-cyan-300' : 'text-slate-400 hover:text-slate-200'
+                  mode === 'upload' ? 'bg-white/10 text-indigo-300' : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <FileText className="w-3.5 h-3.5" /> Upload PDF
@@ -154,7 +154,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                   value={studentName}
                   onChange={(e) => setStudentName(e.target.value)}
                   placeholder="e.g. Rohan Kulkarni"
-                  className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-cyan-500/50"
+                  className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                 />
               </div>
 
@@ -167,7 +167,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                     value={course}
                     onChange={(e) => setCourse(e.target.value)}
                     placeholder="B.Tech Computer Science"
-                    className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                   />
                 </div>
                 <div>
@@ -177,7 +177,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                     required
                     value={year}
                     onChange={(e) => setYear(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                   />
                 </div>
               </div>
@@ -190,13 +190,13 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                   value={grade}
                   onChange={(e) => setGrade(e.target.value)}
                   placeholder="First Class with Distinction"
-                  className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-cyan-500/50"
+                  className="w-full px-3 py-2 rounded-xl bg-black/30 border border-white/10 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                 />
               </div>
 
               {mode === 'generate' ? (
-                <div className="p-3 rounded-xl bg-cyan-500/5 border border-cyan-500/20 text-xs text-slate-400">
-                  <p className="text-[11px] font-mono-tech text-cyan-300/90 leading-relaxed">
+                <div className="p-3 rounded-xl bg-indigo-500/5 border border-indigo-500/20 text-xs text-slate-400">
+                  <p className="text-[11px] font-mono-tech text-indigo-300/90 leading-relaxed">
                     Generates a printable A4 certificate with the BMSCE logo, QR code, and SHA-256 fingerprint.
                   </p>
                 </div>
@@ -207,7 +207,7 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full p-3 rounded-xl border border-dashed border-white/20 hover:border-cyan-400 text-left flex items-center justify-between transition-colors bg-white/[0.02]"
+                    className="w-full p-3 rounded-xl border border-dashed border-white/20 hover:border-indigo-400 text-left flex items-center justify-between transition-colors bg-white/[0.02]"
                   >
                     <span className="text-xs text-slate-300 truncate">{file ? file.name : 'Select certificate PDF (max 5MB)...'}</span>
                     <UploadCloud className="w-4 h-4 text-slate-400 shrink-0 ml-2" />
@@ -236,13 +236,13 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
 
             {/* Cert ID with Copy button */}
             <div className="p-3 rounded-xl bg-slate-900/50 border border-white/10 flex items-center justify-between">
-              <span className="font-mono-tech text-sm text-cyan-300 font-medium">
+              <span className="font-mono-tech text-sm text-indigo-300 font-medium">
                 {issueResult.certificate?.certId}
               </span>
               <button
                 type="button"
                 onClick={handleCopyId}
-                className="flex items-center gap-1 text-[11px] font-mono-tech text-cyan-400 px-2 py-0.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 transition-colors"
+                className="flex items-center gap-1 text-[11px] font-mono-tech text-indigo-300 px-2 py-0.5 rounded bg-indigo-500/10 hover:bg-indigo-500/20 transition-colors"
               >
                 {copiedId ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                 <span>{copiedId ? 'Copied' : 'Copy ID'}</span>

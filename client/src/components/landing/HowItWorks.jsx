@@ -35,7 +35,7 @@ export default function HowItWorks() {
     <section className="w-full py-16 sm:py-24 border-t border-white/5">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-2">
-          <p className="font-mono-tech text-xs tracking-widest uppercase text-cyan-400 font-medium">
+          <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
             HOW VERITAS WORKS
           </p>
           <h2 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl font-light text-white tracking-tight">
@@ -56,7 +56,7 @@ export default function HowItWorks() {
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono-tech text-xs text-cyan-400 font-semibold tracking-wider">
+                    <span className="font-mono-tech text-xs text-indigo-300/80 font-semibold tracking-wider">
                       {step.number} // {step.label}
                     </span>
                     <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-300">
@@ -74,7 +74,7 @@ export default function HowItWorks() {
                 </div>
 
                 <div className="pt-4 border-t border-white/5 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/80" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80" />
                   <span className="font-mono-tech text-[10px] uppercase tracking-wider text-slate-500">
                     Cryptographically immutable
                   </span>

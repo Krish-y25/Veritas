@@ -35,7 +35,7 @@ export default function VerifyingStepper({ mode = 'file', currentStep = 1 }) {
               transition={{ duration: 0.25, delay: index * 0.08 }}
               className={`flex items-center gap-3.5 p-3 rounded-xl border transition-all ${
                 isActive
-                  ? 'bg-cyan-500/10 border-cyan-500/30 text-white shadow-lg shadow-cyan-500/5'
+                  ? 'bg-indigo-500/10 border-indigo-500/30 text-white shadow-lg shadow-indigo-500/5'
                   : isDone
                   ? 'bg-slate-900/40 border-emerald-500/30 text-slate-300'
                   : 'bg-transparent border-white/5 text-slate-500'
@@ -46,14 +46,14 @@ export default function VerifyingStepper({ mode = 'file', currentStep = 1 }) {
                   isDone
                     ? 'bg-emerald-500/20 text-emerald-400'
                     : isActive
-                    ? 'bg-cyan-500/20 text-cyan-400'
+                    ? 'bg-indigo-500/20 text-indigo-400'
                     : 'bg-white/5 text-slate-600'
                 }`}
               >
                 {isDone ? (
                   <Check className="w-4 h-4 text-emerald-400" />
                 ) : isActive ? (
-                  <Loader2 className="w-4 h-4 text-cyan-400 animate-spin" />
+                  <Loader2 className="w-4 h-4 text-indigo-400 animate-spin" />
                 ) : (
                   <Circle className="w-3.5 h-3.5 text-slate-600" />
                 )}

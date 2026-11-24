@@ -74,7 +74,7 @@ export default function FileDropzone({ onVerify, isSubmitting }) {
           onClick={() => inputRef.current?.click()}
           className={`cursor-pointer border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-200 ${
             dragActive
-              ? 'border-cyan-400 bg-cyan-500/10 scale-[1.01]'
+              ? 'border-indigo-400 bg-indigo-500/10 scale-[1.01]'
               : 'border-white/15 hover:border-indigo-400/50 hover:bg-white/[0.02]'
           }`}
         >
@@ -89,7 +89,7 @@ export default function FileDropzone({ onVerify, isSubmitting }) {
             <UploadCloud className="w-6 h-6 text-indigo-400" />
           </div>
           <p className="text-sm font-medium text-slate-200 mb-1">
-            Drag and drop your certificate PDF, or <span className="text-cyan-400 underline underline-offset-2">browse</span>
+            Drag and drop your certificate PDF, or <span className="text-indigo-300 underline underline-offset-2">browse</span>
           </p>
           <p className="font-mono-tech text-xs text-slate-500 uppercase tracking-wider">
             PDF files only up to 5MB

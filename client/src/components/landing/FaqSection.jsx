@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Plus, X } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const FAQS = [
   {
@@ -38,7 +39,7 @@ export default function FaqSection() {
     <section className="w-full py-16 sm:py-24 border-t border-white/5">
       <div className="max-w-3xl mx-auto space-y-10">
         <div className="text-center space-y-2">
-          <p className="font-mono-tech text-xs tracking-widest uppercase text-cyan-400 font-medium">
+          <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
             FREQUENTLY ASKED QUESTIONS
           </p>
           <h2 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl font-light text-white tracking-tight">
@@ -57,19 +58,36 @@ export default function FaqSection() {
                   className="w-full flex items-center justify-between text-left gap-4 group"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-base sm:text-lg text-slate-100 group-hover:text-cyan-300 font-medium transition-colors">
+                  <span className="text-base sm:text-lg text-slate-200 group-hover:text-white font-medium transition-colors">
                     {faq.question}
                   </span>
-                  <span className="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center shrink-0 text-slate-400 group-hover:text-white transition-colors">
-                    {isOpen ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                  </span>
+                  <motion.span
+                    className="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center shrink-0 text-slate-400 group-hover:text-white transition-colors"
+                    animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                  >
+                    <Plus className="w-4 h-4" />
+                  </motion.span>
                 </button>
 
-                {isOpen && (
-                  <p className="mt-3 text-sm text-slate-300 leading-relaxed font-normal pr-8">
-                    {faq.answer}
-                  </p>
-                )}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pt-3 pr-8">
+                        <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}

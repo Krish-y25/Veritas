@@ -96,7 +96,7 @@ export default function VerifyResultCard({ result, onReset }) {
           </div>
           <div>
             <p className="font-mono-tech text-[11px] text-slate-500 uppercase tracking-wider">Certificate ID</p>
-            <p className="font-mono-tech text-sm text-cyan-400 font-medium">{certificate.certId}</p>
+            <p className="font-mono-tech text-sm text-indigo-300 font-medium">{certificate.certId}</p>
           </div>
           <div>
             <p className="font-mono-tech text-[11px] text-slate-500 uppercase tracking-wider">Course / Degree</p>
@@ -130,7 +130,7 @@ export default function VerifyResultCard({ result, onReset }) {
                 <button
                   type="button"
                   onClick={() => handleCopyHash(certificate.fileHash)}
-                  className="flex items-center gap-1 text-[11px] font-mono-tech text-cyan-400 hover:text-cyan-300 shrink-0 px-2 py-0.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 transition-colors"
+                  className="flex items-center gap-1 text-[11px] font-mono-tech text-indigo-300 hover:text-indigo-200 shrink-0 px-2 py-0.5 rounded bg-indigo-500/10 hover:bg-indigo-500/20 transition-colors"
                 >
                   {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -154,7 +154,7 @@ export default function VerifyResultCard({ result, onReset }) {
             <button
               type="button"
               onClick={() => handleCopyHash(computedHash)}
-              className="flex items-center gap-1 text-[11px] font-mono-tech text-cyan-400 hover:text-cyan-300 shrink-0 px-2 py-0.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 transition-colors"
+              className="flex items-center gap-1 text-[11px] font-mono-tech text-indigo-300 hover:text-indigo-200 shrink-0 px-2 py-0.5 rounded bg-indigo-500/10 hover:bg-indigo-500/20 transition-colors"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? 'Copied' : 'Copy'}</span>

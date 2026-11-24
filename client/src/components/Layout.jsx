@@ -7,7 +7,7 @@ import Navbar from './Navbar.jsx';
  */
 export default function Layout({ children }) {
   return (
-    <div className="relative min-h-screen flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="relative min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200">
       <AmbientBackground />
       <Navbar />
       <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col">

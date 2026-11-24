@@ -52,7 +52,7 @@ export default function CertificateTable({
             value={searchTerm}
             onChange={handleSearch}
             placeholder="Search student, course, ID..."
-            className="w-full pl-9 pr-3 py-2 rounded-xl bg-black/30 border border-white/10 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-500/50"
+            className="w-full pl-9 pr-3 py-2 rounded-xl bg-black/30 border border-white/10 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50"
           />
         </div>
       </div>
@@ -80,7 +80,7 @@ export default function CertificateTable({
             ) : (
               certificates.map((cert) => (
                 <tr key={cert._id} className="hover:bg-white/[0.02] transition-colors">
-                  <td className="py-3 px-4 font-mono-tech font-medium text-cyan-400">{cert.certId}</td>
+                  <td className="py-3 px-4 font-mono-tech font-medium text-indigo-300">{cert.certId}</td>
                   <td className="py-3 px-4 font-medium text-white">{cert.studentName}</td>
                   <td className="py-3 px-4 text-slate-300">
                     {cert.course} <span className="text-slate-500">({cert.year})</span>
@@ -104,7 +104,7 @@ export default function CertificateTable({
                         href={`/verify?id=${cert.certId}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-400 hover:bg-white/5 transition-colors"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors"
                         title="Open verify page"
                       >
                         <ExternalLink className="w-3.5 h-3.5" />

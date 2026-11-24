@@ -6,10 +6,10 @@ export default function Placeholder() {
       <div className="glass-card max-w-md w-full p-8 rounded-2xl border border-white/10 shadow-2xl relative overflow-hidden">
         {/* Ambient gradient glow */}
         <div className="absolute -top-24 -left-24 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col items-center">
-          <div className="w-16 h-16 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/25">
+          <div className="w-16 h-16 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-400 flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/25">
             <ShieldCheck className="w-9 h-9 text-white" />
           </div>
 
@@ -17,7 +17,7 @@ export default function Placeholder() {
             Veritas
           </h1>
 
-          <p className="text-sm font-medium text-cyan-400/90 mb-4 tracking-wider uppercase">
+          <p className="text-sm font-medium text-indigo-300/90 mb-4 tracking-wider uppercase">
             Certificate Verification System
           </p>
 

@@ -42,7 +42,7 @@ export default function Navbar() {
               to="/verify"
               className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 isActive('/verify')
-                  ? 'bg-white/10 text-cyan-400'
+                  ? 'bg-white/10 text-indigo-300'
                   : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >

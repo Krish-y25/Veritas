@@ -56,7 +56,7 @@ export default function LoginPage() {
             <Lock className="w-6 h-6 text-indigo-400" />
           </div>
           <div className="text-center mb-6 space-y-1.5">
-            <p className="font-mono-tech text-xs tracking-widest uppercase text-cyan-400 font-medium">ISSUER PORTAL</p>
+            <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">ISSUER PORTAL</p>
             <h1 className="font-serif-display text-3xl sm:text-4xl font-light text-white tracking-tight">Issuer Sign In</h1>
             <p className="text-xs text-slate-400 font-normal">Authenticate to manage institutional certificate records.</p>
           </div>
@@ -85,7 +85,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="issuer@institution.edu"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-black/30 border border-white/10 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-black/30 border border-white/10 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50"
             />
           </div>
           <div>
@@ -96,7 +96,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••••••"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-black/30 border border-white/10 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-black/30 border border-white/10 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50"
             />
           </div>
           <button
@@ -117,13 +117,13 @@ export default function LoginPage() {
         >
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1.5 text-xs font-mono-tech text-slate-400 uppercase">
-              <KeyRound className="w-3.5 h-3.5 text-cyan-400" />
+              <KeyRound className="w-3.5 h-3.5 text-slate-400" />
               <span>Demo Account</span>
             </div>
             <button
               type="button"
               onClick={handleFillDemo}
-              className="inline-flex items-center gap-1 text-[11px] font-mono-tech text-cyan-400 hover:text-cyan-300 px-2 py-0.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 transition-colors"
+              className="inline-flex items-center gap-1 text-[11px] font-mono-tech text-indigo-300 hover:text-indigo-200 px-2 py-0.5 rounded bg-indigo-500/10 hover:bg-indigo-500/20 transition-colors"
             >
               <Sparkles className="w-3 h-3" />
               <span>Fill Demo Credentials</span>

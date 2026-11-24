@@ -78,7 +78,7 @@ export default function DashboardPage() {
         className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
       >
         <div>
-          <p className="font-mono-tech text-xs tracking-widest uppercase text-cyan-400 font-medium">
+          <p className="font-mono-tech text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
             ISSUER DASHBOARD
           </p>
           <h1 className="font-serif-display text-3xl sm:text-4xl text-white font-light tracking-tight mt-1 flex items-center gap-2">

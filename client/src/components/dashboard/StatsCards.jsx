@@ -27,7 +27,7 @@ export default function StatsCards({ stats, isLoading }) {
       title: 'Total Verifications',
       value: stats?.totalVerifications ?? 0,
       icon: SearchCheck,
-      accent: 'text-cyan-400 border-cyan-500/20 bg-cyan-500/10',
+      accent: 'text-indigo-300 border-indigo-500/20 bg-indigo-500/10',
     },
   ];
 

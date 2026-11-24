@@ -61,7 +61,7 @@ export default function ContactPage() {
         transition={{ duration: 0.4 }}
         className="space-y-2.5 max-w-xl text-center lg:-mt-1 pt-0"
       >
-        <p className="font-mono-tech text-[11px] sm:text-xs tracking-widest uppercase text-cyan-400 font-medium">
+        <p className="font-mono-tech text-[11px] sm:text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
           TEAM · BMS COLLEGE OF ENGINEERING
         </p>
         <h1 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl font-light text-white tracking-tight leading-tight">
@@ -80,7 +80,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: i * 0.08 }}
-            className="glass-card rounded-2xl p-7 sm:p-8 border border-white/10 hover:border-cyan-500/30 transition-all flex flex-col justify-between gap-5"
+            className="glass-card rounded-2xl p-7 sm:p-8 border border-white/10 hover:border-indigo-500/30 transition-all flex flex-col justify-between gap-5"
           >
             <div className="space-y-4">
               <div className="flex items-center gap-4">
