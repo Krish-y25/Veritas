@@ -218,9 +218,9 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium text-white bg-gradient-to-r from-indigo-500 to-cyan-500 hover:opacity-95 shadow-lg shadow-indigo-500/20 transition-all disabled:opacity-50 text-sm"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium bg-white text-[#050816] hover:bg-slate-200 active:bg-slate-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm focus-visible:ring-2 focus-visible:ring-white/60"
               >
-                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>{mode === 'generate' ? 'Generate & Issue Certificate' : 'Upload & Issue Certificate'}</span>}
+                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin text-[#050816]" /> : <span>{mode === 'generate' ? 'Generate & Issue Certificate' : 'Upload & Issue Certificate'}</span>}
               </button>
             </form>
           </div>
@@ -254,9 +254,9 @@ export default function IssueCertificateModal({ isOpen, onClose, onIssued }) {
               <button
                 type="button"
                 onClick={handleDownloadPdf}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-medium text-white bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 shadow-xl shadow-cyan-500/20 text-sm transition-all"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-medium bg-white text-[#050816] hover:bg-slate-200 active:bg-slate-300 text-sm transition-all focus-visible:ring-2 focus-visible:ring-white/60"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-4 h-4 text-[#050816]" />
                 <span>Download Certificate PDF</span>
               </button>
             )}

@@ -1,14 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import * as THREE from 'three';
+import p5 from 'p5';
 import NET from 'vanta/dist/vanta.net.min';
-import FOG from 'vanta/dist/vanta.fog.min';
+import TRUNK from 'vanta/dist/vanta.trunk.min';
 import DitherBackground from './DitherBackground.jsx';
 
 /**
  * Route-aware ambient background:
  * - Landing ('/'): plays looping video (/bg-loop.mp4)
- * - Dashboard ('/dashboard*'): Vanta.js FOG in dark navy, indigo, and cyan
+ * - Dashboard ('/dashboard*'): Vanta.js TRUNK with animated p5 tree rings in indigo on navy
  * - Contact ('/contact*'): zero-dependency WebGL Bayer Riso Dither
  * - Other routes ('/verify', '/login', etc.): Vanta.js NET
  */
@@ -19,7 +20,7 @@ export default function AmbientBackground() {
     pathname === '/'
       ? 'video'
       : pathname.startsWith('/dashboard')
-      ? 'fog'
+      ? 'trunk'
       : pathname.startsWith('/contact')
       ? 'dither'
       : 'net';
@@ -48,22 +49,24 @@ export default function AmbientBackground() {
     }
 
     try {
-      if (mode === 'fog') {
-        vantaEffectRef.current = FOG({
+      if (mode === 'trunk') {
+        if (typeof window !== 'undefined') {
+          window.p5 = p5;
+        }
+        vantaEffectRef.current = TRUNK({
           el: containerRef.current,
-          THREE,
+          p5,
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
           minHeight: 200.0,
           minWidth: 200.0,
-          baseColor: 0x050816,
-          lowlightColor: 0x1e1b4b,
-          midtoneColor: 0x4f46e5,
-          highlightColor: 0x06b6d4,
-          blurFactor: 0.55,
-          speed: 2.4,
-          zoom: 1.2,
+          scale: 1.0,
+          scaleMobile: 1.0,
+          color: 0x4f46e5,
+          backgroundColor: 0x050816,
+          spacing: 2.5,
+          chaos: 2.5,
         });
       } else if (mode === 'net') {
         vantaEffectRef.current = NET({
@@ -81,7 +84,7 @@ export default function AmbientBackground() {
         });
       }
     } catch (err) {
-      console.warn('Vanta WebGL initialization failed, using static fallback:', err);
+      console.warn('Vanta initialization failed, using static fallback:', err);
     }
 
     return () => {
@@ -116,8 +119,8 @@ export default function AmbientBackground() {
         className={`absolute inset-0 pointer-events-none transition-colors duration-500 ${
           mode === 'dither'
             ? 'bg-[#050816]/20'
-            : mode === 'fog'
-            ? 'bg-[#050816]/15'
+            : mode === 'trunk'
+            ? 'bg-[#050816]/25'
             : 'bg-[#050816]/30'
         }`}
       />
@@ -127,8 +130,8 @@ export default function AmbientBackground() {
           background:
             mode === 'dither'
               ? 'radial-gradient(circle at 50% 50%, rgba(5, 8, 22, 0.0) 65%, rgba(5, 8, 22, 0.45) 100%)'
-              : mode === 'fog'
-              ? 'radial-gradient(circle at 50% 50%, rgba(5, 8, 22, 0.05) 50%, rgba(5, 8, 22, 0.55) 100%)'
+              : mode === 'trunk'
+              ? 'radial-gradient(circle at 50% 50%, rgba(5, 8, 22, 0.05) 40%, rgba(5, 8, 22, 0.6) 100%)'
               : 'radial-gradient(circle at 50% 50%, rgba(5, 8, 22, 0.2) 20%, rgba(5, 8, 22, 0.8) 100%)',
         }}
       />

@@ -96,9 +96,9 @@ export default function DashboardPage() {
         <button
           type="button"
           onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-2 py-2.5 px-4 rounded-xl font-medium text-white bg-gradient-to-r from-indigo-500 to-cyan-500 hover:opacity-95 shadow-lg shadow-indigo-500/20 text-xs sm:text-sm transition-all"
+          className="inline-flex items-center gap-2 py-2.5 px-4 rounded-xl font-medium bg-white text-[#050816] hover:bg-slate-200 active:bg-slate-300 text-xs sm:text-sm transition-all focus-visible:ring-2 focus-visible:ring-white/60"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 text-[#050816]" />
           <span>Issue Certificate</span>
         </button>
       </motion.div>

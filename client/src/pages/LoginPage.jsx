@@ -102,9 +102,9 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium text-white bg-gradient-to-r from-indigo-500 to-cyan-500 hover:opacity-95 shadow-lg shadow-indigo-500/20 transition-all disabled:opacity-50 text-sm"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium bg-white text-[#050816] hover:bg-slate-200 active:bg-slate-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm focus-visible:ring-2 focus-visible:ring-white/60"
           >
-            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (<><LogIn className="w-4 h-4" /><span>Sign In</span></>)}
+            {isLoading ? <Loader2 className="w-4 h-4 animate-spin text-[#050816]" /> : (<><LogIn className="w-4 h-4 text-[#050816]" /><span>Sign In</span></>)}
           </button>
         </motion.form>
 

@@ -73,10 +73,10 @@ export default function IssueSuccessView({ issueResult, onClose }) {
           href={verifyUrl}
           target="_blank"
           rel="noreferrer"
-          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-mono-tech text-white bg-indigo-600/80 hover:bg-indigo-600 transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-mono-tech bg-white text-[#050816] hover:bg-slate-200 active:bg-slate-300 transition-colors focus-visible:ring-2 focus-visible:ring-white/60"
         >
           <span>Open Verify Page</span>
-          <ExternalLink className="w-3.5 h-3.5" />
+          <ExternalLink className="w-3.5 h-3.5 text-[#050816]" />
         </a>
       </div>
 

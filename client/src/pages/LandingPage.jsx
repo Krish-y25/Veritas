@@ -44,10 +44,10 @@ export default function LandingPage() {
           <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
             <Link
               to="/verify"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-600 hover:to-cyan-600 text-white font-medium shadow-xl shadow-indigo-500/25 transition-all text-sm group"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white text-[#050816] hover:bg-slate-200 active:bg-slate-300 font-medium shadow-xl transition-all text-sm group focus-visible:ring-2 focus-visible:ring-white/60"
             >
               <span>Verify a Certificate</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight className="w-4 h-4 text-[#050816] group-hover:translate-x-0.5 transition-transform" />
             </Link>
 
             <Link
