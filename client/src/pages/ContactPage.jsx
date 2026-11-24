@@ -29,98 +29,100 @@ const CREATORS = [
 function CreatorAvatar({ src, name, initials }) {
   const [imgError, setImgError] = useState(false);
 
-  return (
-    <div className="relative w-20 h-20 rounded-full p-0.5 bg-gradient-to-tr from-indigo-500 via-cyan-400 to-indigo-600 shadow-lg shadow-cyan-500/10 shrink-0">
-      <div className="w-full h-full rounded-full overflow-hidden bg-slate-900 flex items-center justify-center">
-        {!imgError ? (
-          <img
-            src={src}
-            alt={name}
-            onError={() => setImgError(true)}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <span className="font-mono-tech font-bold text-lg text-cyan-300">{initials}</span>
-        )}
+  if (imgError) {
+    return (
+      <div className="h-14 w-14 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
+        <span className="font-mono-tech font-medium text-sm text-slate-300">{initials}</span>
       </div>
-    </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={name}
+      onError={() => setImgError(true)}
+      className="h-14 w-14 rounded-full object-cover shrink-0"
+    />
   );
 }
 
 /**
  * Editorial Contact & Creators showcase page.
+ * Sized to fit strictly within 100vh on desktop with zero vertical scrollbars.
  */
 export default function ContactPage() {
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 py-16 sm:py-24 flex flex-col items-center text-center">
-      {/* Header */}
+    <div className="w-full max-w-5xl mx-auto px-4 flex flex-col justify-between items-center text-center py-4 lg:py-0 space-y-6 lg:space-y-0 lg:h-[calc(100vh-10rem)]">
+      {/* Header Block Shifted Slightly Up */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="space-y-4 max-w-2xl mb-12 sm:mb-16"
+        transition={{ duration: 0.4 }}
+        className="space-y-2 max-w-xl text-center lg:-mt-1 pt-0"
       >
-        <p className="font-mono-tech text-xs tracking-widest uppercase text-cyan-400 font-medium">
+        <p className="font-mono-tech text-[11px] sm:text-xs tracking-widest uppercase text-cyan-400 font-medium">
           TEAM · BMS COLLEGE OF ENGINEERING
         </p>
-        <h1 className="font-serif-display text-4xl sm:text-5xl lg:text-6xl font-light text-white tracking-tight">
+        <h1 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl font-light text-white tracking-tight leading-tight">
           Built by students, engineered for trust.
         </h1>
-        <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-          Meet the minds behind Veritas — developed with zero file storage, deterministic cryptography, and an editorial design philosophy.
+        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+          Meet the minds behind Veritas — engineered with zero file storage, deterministic cryptography, and an editorial design philosophy.
         </p>
       </motion.div>
 
-      {/* Creator Profile Cards */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 text-left">
+      {/* More Square Creator Tiles */}
+      <div className="w-full max-w-[740px] grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
         {CREATORS.map((c, i) => (
           <motion.div
             key={c.name}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="glass-card rounded-2xl p-6 sm:p-8 border border-white/10 hover:border-cyan-500/30 transition-all flex flex-col justify-between space-y-6"
+            transition={{ duration: 0.4, delay: i * 0.08 }}
+            className="glass-card rounded-2xl p-6 sm:p-7 min-h-[275px] border border-white/10 hover:border-cyan-500/30 transition-all flex flex-col justify-between space-y-4"
           >
-            <div className="space-y-5">
-              <div className="flex items-center gap-4">
+            <div className="space-y-3.5">
+              <div className="flex items-center gap-3.5">
                 <CreatorAvatar src={c.avatar} name={c.name} initials={c.initials} />
                 <div>
-                  <h2 className="font-serif-display text-2xl font-light text-white">
+                  <h2 className="font-serif-display text-xl sm:text-2xl font-light text-white">
                     {c.name}
                   </h2>
-                  <p className="font-mono-tech text-[11px] text-cyan-400 uppercase tracking-wider mt-0.5">
+                  <p className="font-mono-tech text-[10px] sm:text-[11px] text-cyan-400 uppercase tracking-wider mt-0.5">
                     {c.role}
                   </p>
                 </div>
               </div>
-              <p className="text-sm text-slate-300 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
                 {c.description}
               </p>
             </div>
 
-            <div className="pt-2 border-t border-white/5">
+            <div className="pt-3 border-t border-white/5">
               <a
                 href={c.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-mono-tech text-xs transition-colors group"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-mono-tech text-xs transition-colors group"
               >
-                <Github className="w-4 h-4 text-cyan-400" />
+                <Github className="w-3.5 h-3.5 text-cyan-400" />
                 <span>{c.handle}</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                <ArrowUpRight className="w-3 h-3 text-slate-400 group-hover:text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </a>
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Navigation Return Link */}
-      <div className="mt-12 sm:mt-16">
+      {/* Plain text return link */}
+      <div className="my-2">
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-xs font-mono-tech text-slate-400 hover:text-cyan-300 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-slate-300 hover:text-white transition-colors"
         >
-          ← Back to Home
+          <span>←</span>
+          <span>Back to Home</span>
         </Link>
       </div>
     </div>

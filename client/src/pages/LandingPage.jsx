@@ -95,12 +95,6 @@ export default function LandingPage() {
         </div>
 
         <div className="flex items-center gap-6 text-slate-400">
-          <Link to="/verify" className="hover:text-cyan-300 transition-colors">
-            Verify
-          </Link>
-          <Link to={issuerPath} className="hover:text-cyan-300 transition-colors">
-            Issuer Portal
-          </Link>
           <Link to="/contact" className="hover:text-cyan-300 transition-colors">
             Contact
           </Link>
