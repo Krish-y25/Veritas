@@ -8,11 +8,12 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        mono: ['"DM Mono"', 'monospace'],
+        sans: ['"DM Mono"', 'monospace'],
       },
       colors: {
         navy: {
-          950: '#060a12',
+          950: '#050816',
           900: '#0b1120',
           850: '#0f172a',
           800: '#141e33',
