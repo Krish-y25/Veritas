@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import authRoutes from './routes/authRoutes.js';
 import certificateRoutes from './routes/certificateRoutes.js';
+import verifyRoutes from './routes/verifyRoutes.js';
 import { stats as getStats } from './controllers/certificateController.js';
 import { requireAuth } from './middleware/auth.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -27,6 +28,9 @@ app.get('/api/health', (req, res) => {
 
 // Authentication routes
 app.use('/api/auth', authRoutes);
+
+// Public verification routes
+app.use('/api/verify', verifyRoutes);
 
 // Protected certificate routes
 app.use('/api/certificates', requireAuth, certificateRoutes);
