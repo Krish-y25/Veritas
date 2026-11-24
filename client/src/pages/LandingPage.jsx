@@ -101,6 +101,9 @@ export default function LandingPage() {
           <Link to={issuerPath} className="hover:text-cyan-300 transition-colors">
             Issuer Portal
           </Link>
+          <Link to="/contact" className="hover:text-cyan-300 transition-colors">
+            Contact
+          </Link>
         </div>
       </footer>
     </div>

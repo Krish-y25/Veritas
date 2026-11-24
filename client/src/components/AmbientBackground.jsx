@@ -3,11 +3,13 @@ import { useLocation } from 'react-router-dom';
 import * as THREE from 'three';
 import NET from 'vanta/dist/vanta.net.min';
 import FOG from 'vanta/dist/vanta.fog.min';
+import DitherBackground from './DitherBackground.jsx';
 
 /**
  * Route-aware ambient background:
  * - Landing ('/'): plays looping video (/bg-loop.mp4)
  * - Dashboard ('/dashboard*'): Vanta.js FOG in dark navy, indigo, and cyan
+ * - Contact ('/contact*'): zero-dependency WebGL Bayer Riso Dither
  * - Other routes ('/verify', '/login', etc.): Vanta.js NET
  */
 export default function AmbientBackground() {
@@ -18,6 +20,8 @@ export default function AmbientBackground() {
       ? 'video'
       : pathname.startsWith('/dashboard')
       ? 'fog'
+      : pathname.startsWith('/contact')
+      ? 'dither'
       : 'net';
 
   const containerRef = useRef(null);
@@ -30,7 +34,7 @@ export default function AmbientBackground() {
       vantaEffectRef.current = null;
     }
 
-    if (mode === 'video') {
+    if (mode === 'video' || mode === 'dither') {
       return;
     }
 
@@ -101,6 +105,8 @@ export default function AmbientBackground() {
           aria-hidden="true"
           className="w-full h-full object-cover opacity-70 motion-reduce:hidden"
         />
+      ) : mode === 'dither' ? (
+        <DitherBackground />
       ) : (
         <div ref={containerRef} className="absolute inset-0 w-full h-full" />
       )}
@@ -108,14 +114,20 @@ export default function AmbientBackground() {
       {/* Mode-adapted dark tint and radial vignette layer */}
       <div
         className={`absolute inset-0 pointer-events-none transition-colors duration-500 ${
-          mode === 'fog' ? 'bg-[#050816]/15' : 'bg-[#050816]/30'
+          mode === 'dither'
+            ? 'bg-[#050816]/20'
+            : mode === 'fog'
+            ? 'bg-[#050816]/15'
+            : 'bg-[#050816]/30'
         }`}
       />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            mode === 'fog'
+            mode === 'dither'
+              ? 'radial-gradient(circle at 50% 50%, rgba(5, 8, 22, 0.0) 65%, rgba(5, 8, 22, 0.45) 100%)'
+              : mode === 'fog'
               ? 'radial-gradient(circle at 50% 50%, rgba(5, 8, 22, 0.05) 50%, rgba(5, 8, 22, 0.55) 100%)'
               : 'radial-gradient(circle at 50% 50%, rgba(5, 8, 22, 0.2) 20%, rgba(5, 8, 22, 0.8) 100%)',
         }}
