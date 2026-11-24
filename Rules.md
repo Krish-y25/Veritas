@@ -47,6 +47,7 @@ Charts, verification history page, settings, registration, admin roles, bulk CSV
 ## Design (frontend)
 Dark theme, navy background, indigo-to-cyan gradient accent, glass cards, Inter font.
 Motion only on the hero and the verification result. Use shadcn/ui components instead of building custom ones.
+subtle CSS ambient background
 
 ## How to work
 - One small step at a time, then stop and wait for my confirmation.
