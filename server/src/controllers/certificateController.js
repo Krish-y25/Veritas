@@ -13,7 +13,7 @@ const issueSchema = z.object({
 });
 
 /**
- * Issues a new certificate.
+ * Issues a certificate from an uploaded PDF file.
  */
 export const issue = async (req, res, next) => {
   try {
@@ -24,13 +24,32 @@ export const issue = async (req, res, next) => {
     }
 
     const validatedData = issueSchema.parse(req.body);
-
     const result = await certificateService.issueCertificate({
       studentName: validatedData.studentName,
       course: validatedData.course,
       year: validatedData.year,
       grade: validatedData.grade,
       fileBuffer: req.file.buffer,
+      issuerId: req.issuer.issuerId,
+    });
+
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Generates an in-memory Printable Classic PDF certificate and issues it.
+ */
+export const generate = async (req, res, next) => {
+  try {
+    const validatedData = issueSchema.parse(req.body);
+    const result = await certificateService.generateAndIssueCertificate({
+      studentName: validatedData.studentName,
+      course: validatedData.course,
+      year: validatedData.year,
+      grade: validatedData.grade,
       issuerId: req.issuer.issuerId,
     });
 

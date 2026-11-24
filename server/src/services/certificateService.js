@@ -1,10 +1,12 @@
 import QRCode from 'qrcode';
 import { Certificate } from '../models/Certificate.js';
+import { Issuer } from '../models/Issuer.js';
 import { VerificationLog } from '../models/VerificationLog.js';
 import { isPdfBuffer, hashBuffer, generateCertId } from '../utils/certUtils.js';
+import { generateCertificatePdf } from '../utils/pdfGenerator.js';
 
 /**
- * Issues a new certificate after validating and hashing the PDF buffer in memory.
+ * Issues a certificate by validating and hashing an uploaded PDF buffer in memory.
  */
 export const issueCertificate = async ({
   studentName,
@@ -21,7 +23,6 @@ export const issueCertificate = async ({
   }
 
   const fileHash = hashBuffer(fileBuffer);
-
   const existingCert = await Certificate.findOne({ fileHash });
   if (existingCert) {
     const error = new Error('This certificate was already issued.');
@@ -53,11 +54,67 @@ export const issueCertificate = async ({
 };
 
 /**
- * Lists certificates for a given issuer, optionally filtering by search term across studentName, course, and certId.
+ * Generates an in-memory Printable Classic PDF, hashes it, registers it, and returns it.
+ */
+export const generateAndIssueCertificate = async ({
+  studentName,
+  course,
+  year,
+  grade,
+  issuerId,
+}) => {
+  const issuer = await Issuer.findById(issuerId);
+  const organization = issuer?.organization || 'B.M.S. College of Engineering';
+
+  let certId = generateCertId();
+  while (await Certificate.exists({ certId })) {
+    certId = generateCertId();
+  }
+
+  const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+  const verifyUrl = `${clientUrl}/verify?id=${certId}`;
+
+  const qrBuffer = await QRCode.toBuffer(verifyUrl, { width: 160, margin: 1 });
+  const qrCode = await QRCode.toDataURL(verifyUrl);
+
+  const issuedAt = new Date();
+  const pdfBuffer = await generateCertificatePdf({
+    studentName,
+    course,
+    year,
+    grade,
+    certId,
+    issuedAt,
+    organization,
+    qrBuffer,
+  });
+
+  const fileHash = hashBuffer(pdfBuffer);
+
+  const certificate = await Certificate.create({
+    certId,
+    studentName,
+    course,
+    year,
+    grade,
+    fileHash,
+    issuerId,
+    status: 'valid',
+  });
+
+  return {
+    certificate,
+    qrCode,
+    verifyUrl,
+    pdfBase64: pdfBuffer.toString('base64'),
+  };
+};
+
+/**
+ * Lists certificates for a given issuer, optionally filtering by search term.
  */
 export const listCertificates = async ({ issuerId, search }) => {
   const query = { issuerId };
-
   if (search && search.trim()) {
     const escaped = search.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const searchRegex = new RegExp(escaped, 'i');
@@ -67,7 +124,6 @@ export const listCertificates = async ({ issuerId, search }) => {
       { certId: searchRegex },
     ];
   }
-
   return Certificate.find(query).sort({ createdAt: -1 });
 };
 
@@ -81,10 +137,8 @@ export const revokeCertificate = async ({ id, issuerId }) => {
     error.statusCode = 404;
     throw error;
   }
-
   certificate.status = 'revoked';
   await certificate.save();
-
   return certificate;
 };
 
