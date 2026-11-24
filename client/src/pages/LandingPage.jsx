@@ -23,12 +23,9 @@ export default function LandingPage() {
           className="space-y-6 max-w-3xl"
         >
           {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-            <span className="font-mono-tech text-[11px] sm:text-xs tracking-widest uppercase text-indigo-300/80 font-medium">
-              VERITAS · CRYPTOGRAPHIC CREDENTIAL REGISTRY
-            </span>
-          </div>
+          <p className="font-mono font-mono-tech text-[11px] sm:text-xs uppercase tracking-[0.2em] text-indigo-300/80 font-medium">
+            VERITAS · CRYPTOGRAPHIC CREDENTIAL REGISTRY
+          </p>
 
           {/* Headline */}
           <h1 className="font-serif-display text-5xl sm:text-6xl lg:text-7xl font-light text-white tracking-tight leading-[1.08]">
