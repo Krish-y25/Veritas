@@ -4,8 +4,8 @@ import bcrypt from 'bcryptjs';
 import { Issuer } from '../models/Issuer.js';
 
 const DEMO_ISSUER = {
-  name: 'Dr. Ananya Rao',
-  organization: 'BMS Institute of Technology',
+  name: 'Krish Yadav',
+  organization: 'BMS College of Engineering',
   email: 'admin@veritas.edu',
   password: 'VeritasDemo123!',
 };
@@ -21,11 +21,14 @@ async function seed() {
     await mongoose.connect(uri);
     console.log('Connected to MongoDB for seeding.');
 
-    // Idempotent check: do not recreate if already seeded
+    // Idempotent check: update in place if already exists, otherwise create
     const existingIssuer = await Issuer.findOne({ email: DEMO_ISSUER.email });
 
     if (existingIssuer) {
-      console.log(`ℹ️ Demo issuer already exists: ${DEMO_ISSUER.email}`);
+      existingIssuer.name = DEMO_ISSUER.name;
+      existingIssuer.organization = DEMO_ISSUER.organization;
+      await existingIssuer.save();
+      console.log(`✅ Updated existing demo issuer: ${DEMO_ISSUER.name} (${DEMO_ISSUER.organization}) [${DEMO_ISSUER.email}]`);
     } else {
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(DEMO_ISSUER.password, salt);
@@ -37,7 +40,7 @@ async function seed() {
         passwordHash,
       });
 
-      console.log(`✅ Demo issuer created successfully: ${DEMO_ISSUER.email}`);
+      console.log(`✅ Demo issuer created successfully: ${DEMO_ISSUER.name} (${DEMO_ISSUER.organization}) [${DEMO_ISSUER.email}]`);
     }
   } catch (error) {
     console.error('❌ Seeding failed:', error.message);
